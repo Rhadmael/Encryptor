@@ -34,3 +34,15 @@ C:\Users\nithu\Desktop\New folder\Encryptor\Encrytor 1.0\obj\Debug\Encrytor 1.0.
 C:\Users\nithu\Desktop\New folder\Encryptor\Encrytor 1.0\obj\Debug\Encrytor_1._0.Title.resources
 C:\Users\nithu\Desktop\New folder\Encryptor\Encrytor 1.0\obj\Debug\Encrytor_1._0.Properties.Resources.resources
 C:\Users\nithu\Desktop\New folder\Encryptor\Encrytor 1.0\obj\Debug\Encrytor 1.0.csproj.GenerateResource.Cache
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\bin\Debug\Encrytor 1.0.exe.config
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\obj\Debug\Encrytor 1.0.exe
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\obj\Debug\Encrytor 1.0.pdb
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\bin\Debug\Encrytor 1.0.exe
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\bin\Debug\Encrytor 1.0.pdb
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\bin\Debug\MetroFramework.Design.dll
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\bin\Debug\MetroFramework.dll
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\obj\Debug\Encrytor 1.0.csprojResolveAssemblyReference.cache
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\obj\Debug\Encrytor_1._0.Title.resources
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\obj\Debug\Encrytor_1._0.Properties.Resources.resources
+C:\Users\nithu\Desktop\Encryptor\Encrytor 1.0\obj\Debug\Encrytor 1.0.csproj.GenerateResource.Cache

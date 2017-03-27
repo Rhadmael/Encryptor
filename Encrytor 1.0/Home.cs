@@ -31,7 +31,9 @@ namespace Encrytor_1._0
             InitializeComponent();
         }
         private string publicKey;
+        private string privateKey;
         private string publicKeyID;
+        private string manifestFilePath;
 
         public string PublicKey
         {
@@ -45,6 +47,22 @@ namespace Encrytor_1._0
                 {
                     this.publicKey = value;
                     MessageBox.Show("PublicKey");
+                }
+            }
+
+        }
+        public string PrivateKey
+        {
+            get
+            {
+                return this.privateKey;
+            }
+            set
+            {
+                if (value != this.privateKey)
+                {
+                    this.publicKey = value;
+                    MessageBox.Show("PrivateKey");
                 }
             }
 
@@ -151,13 +169,17 @@ namespace Encrytor_1._0
                 extension = Path.GetExtension(fName);
 
                 ListViewItem file = new ListViewItem(splitName[0]);
+
                 file.SubItems.Add(filePath[a]);
                 //file.SubItems.Add(splitName[last-1]);
                 file.SubItems.Add(extension);
                 long size = new System.IO.FileInfo(filePath[a]).Length;
                 file.SubItems.Add(size.ToString());
                 file.SubItems.Add("ready");
+
                 fileList.Items.Add(file);
+                //fileList.BackColor = Color.Green;
+                
             }
             
         }
@@ -185,14 +207,15 @@ namespace Encrytor_1._0
         private void keyGen_Click(object sender, EventArgs e)
         {
 
-            key = cryptoFunctions.generateKey();
-            if (System.Windows.Forms.MessageBox.Show(key, "Copy key to Clipboard", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK) {
-                Clipboard.SetText(key);
+            string Genkey = cryptoFunctions.generateKey();
+            if (System.Windows.Forms.MessageBox.Show(Genkey, "Copy key to Clipboard", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                Clipboard.SetText(Genkey);
                 keyTextBox.PasswordChar = '*';
                 keyTextBoxVerify.PasswordChar = '*';
 
-                keyTextBox.Text = key;
-                keyTextBoxVerify.Text = key;
+                keyTextBox.Text = Genkey;
+                keyTextBoxVerify.Text = Genkey;
             }
         }
 
@@ -209,7 +232,9 @@ namespace Encrytor_1._0
                 for (int i = 0; i < fileList.Items.Count; i++)
                 {
                     string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
-                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt + ".fek",key);
+                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt + ".aesEncrypt",key);
+                    fileList.Items[i].SubItems[4].Text = "Encrypted";
+                    fileList.Items[i].BackColor = Color.LightCyan;
                 }
                 
                 
@@ -257,7 +282,6 @@ namespace Encrytor_1._0
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".xml";
-            //ofd.Filter = FileEncryptor.Properties.Resources.XML_File_Type;
             ofd.Title = "Select Public Key";
             DialogResult result = ofd.ShowDialog();
             if (result == DialogResult.OK)
@@ -286,7 +310,7 @@ namespace Encrytor_1._0
                     string fileType = fileList.Items[i].SubItems[2].Text;
 
                     //MessageBox.Show(fileType);
-                    if (fileType != ".fek")
+                    if (fileType != ".aesEncrypt")
                     {
                         MessageBox.Show("invalid files selected. please check and verify file type");
                     }
@@ -297,7 +321,7 @@ namespace Encrytor_1._0
                         for (int fn = 0; fn < fileList.Items.Count; fn++)
                         {
                             string fileToDecrypt = fileList.Items[fn].SubItems[1].Text;
-                            cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
+                            cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace("aesEncrypt", ""), key);
                         }
                     }
                 }
@@ -353,26 +377,105 @@ namespace Encrytor_1._0
 
         private void metroButton6_Click(object sender, EventArgs e)
         {
-            if (!this.freeEvent.WaitOne(0))
+            try {
+
+                if (!this.freeEvent.WaitOne(0))
+                {
+                    MessageBox.Show(Properties.Resources.Backend_Busy);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(publicKey))
+                {
+                    MessageBox.Show(this, Properties.Resources.Error_Need_PublicKey);
+                    return;
+                }
+
+                for (int i = 0; i < fileList.Items.Count; i++)
+                {
+                    string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
+                    string encryptedFilePath = cryptoFunctions.MakePath(@fileToEncrypt, ".encrypted");
+                    string manifestFilePath = cryptoFunctions.MakePath(@fileToEncrypt, ".manifest.xml");
+                    fileList.Items[i].SubItems[4].Text = "Encrypted";
+
+                    var t = Task.Factory.StartNew(() =>
+                    {
+                        freeEvent.Reset();
+                        string s = pki.Encrypt(fileToEncrypt, encryptedFilePath, manifestFilePath, this.publicKey);
+
+                        freeEvent.Set();
+                    });
+                }   
+            
+            }
+            catch{
+                MessageBox.Show("Encryption failed!", "Error");
+            }   
+        }
+
+        private void metroButton7_Click(object sender, EventArgs e)
+        {
+            try
             {
-                MessageBox.Show(Properties.Resources.Backend_Busy);
-                return;
+                if (!this.freeEvent.WaitOne(0))
+                {
+                    MessageBox.Show(Properties.Resources.Backend_Busy);
+                    return;
+                }
+
+                string rsaKey = this.privateKey;
+
+                for (int i = 0; i < fileList.Items.Count; i++)
+                {
+                    string fileToDecrypt = fileList.Items[i].SubItems[1].Text;
+                    string decryptedFilePath = cryptoFunctions.MakePath(fileToDecrypt, ".decrypted");
+                    string dirName = Path.GetDirectoryName(fileToDecrypt);
+                    string fileN = Path.GetFileNameWithoutExtension(fileToDecrypt);
+                    string manifestFile = dirName + "\\" + fileN + ".manifest.xml";
+                    MessageBox.Show(manifestFile);
+                    XDocument doc = XDocument.Load(manifestFile);
+                    XElement aesKeyElement = doc.Root.XPathSelectElement("./DataEncryption/AESEncryptedKeyValue/Key");
+                    byte[] aesKey = pki.RSADescryptBytes(Convert.FromBase64String(aesKeyElement.Value), rsaKey);
+                    XElement aesIvElement = doc.Root.XPathSelectElement("./DataEncryption/AESEncryptedKeyValue/IV");
+                    byte[] aesIv = pki.RSADescryptBytes(Convert.FromBase64String(aesIvElement.Value), rsaKey);
+
+
+                    var t = Task.Factory.StartNew(() =>
+                    {
+                        freeEvent.Reset();
+                        pki.DecryptFile(decryptedFilePath, fileToDecrypt, aesKey, aesIv);
+                        freeEvent.Set();
+                        
+                    });
+
+                    fileList.Items[i].SubItems[4].Text = "Decrypted";
+                } 
+            }
+            catch {
+                MessageBox.Show("Error in decryption, try again");
+            }     
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ChoosePrivate_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.DefaultExt = ".xml";
+            ofd.Title = "Select Private Key";
+            DialogResult result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                using (StreamReader sr = File.OpenText(ofd.FileName))
+                {
+                    this.privateKey = sr.ReadToEnd();
+                    MessageBox.Show(this.privateKey);
+                }
             }
 
-            if (string.IsNullOrEmpty(publicKey))
-            {
-                MessageBox.Show(this, Properties.Resources.Error_Need_PublicKey);
-                return;
-            }
-
-            for (int i = 0; i < fileList.Items.Count; i++)
-            {
-                string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
-                cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt + ".fek", key);
-                string encryptedFilePath = cryptoFunctions.MakePath(@fileToEncrypt, ".encrypted");
-                string manifestFilePath = cryptoFunctions.MakePath(@fileToEncrypt, ".manifest.xml");
-
-            }         
         }
     }
 }

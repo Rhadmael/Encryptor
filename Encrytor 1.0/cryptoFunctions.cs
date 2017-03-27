@@ -59,6 +59,7 @@ namespace Encrytor_1._0
                 cs.Close();
                 fsCrypt.Close();
                 MessageBox.Show(fileToEncrypt + "Encryption Successfull");
+                
             }
 
             catch{

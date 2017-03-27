@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            ""}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Empty, new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))));
+            ""}, -1, System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192))))), System.Drawing.SystemColors.InactiveCaption, new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Title));
             this.pkiCreate = new MetroFramework.Controls.MetroPanel();
             this.metroButton5 = new MetroFramework.Controls.MetroButton();
@@ -39,8 +39,8 @@
             this.fileType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.fileSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.fileStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.metroButton2 = new MetroFramework.Controls.MetroButton();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.selectFile = new MetroFramework.Controls.MetroButton();
+            this.selectFolder = new MetroFramework.Controls.MetroButton();
             this.DESEncryption = new System.Windows.Forms.GroupBox();
             this.metroButton4 = new MetroFramework.Controls.MetroButton();
             this.keyTextBox = new MetroFramework.Controls.MetroTextBox();
@@ -50,11 +50,12 @@
             this.Encrypt = new MetroFramework.Controls.MetroButton();
             this.keyGen = new MetroFramework.Controls.MetroButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.AESDecrypt = new MetroFramework.Controls.MetroButton();
+            this.metroButton6 = new MetroFramework.Controls.MetroButton();
             this.metroButton3 = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.useOld = new MetroFramework.Controls.MetroButton();
-            this.metroButton6 = new MetroFramework.Controls.MetroButton();
-            this.metroButton7 = new MetroFramework.Controls.MetroButton();
+            this.choosePublic = new MetroFramework.Controls.MetroButton();
+            this.ChoosePrivate = new MetroFramework.Controls.MetroButton();
             this.pkiCreate.SuspendLayout();
             this.DESEncryption.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,8 +65,8 @@
             // 
             this.pkiCreate.Controls.Add(this.metroButton5);
             this.pkiCreate.Controls.Add(this.fileList);
-            this.pkiCreate.Controls.Add(this.metroButton2);
-            this.pkiCreate.Controls.Add(this.metroButton1);
+            this.pkiCreate.Controls.Add(this.selectFile);
+            this.pkiCreate.Controls.Add(this.selectFolder);
             this.pkiCreate.Controls.Add(this.DESEncryption);
             this.pkiCreate.Controls.Add(this.groupBox2);
             this.pkiCreate.HorizontalScrollbarBarColor = true;
@@ -142,25 +143,25 @@
             this.fileStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.fileStatus.Width = 112;
             // 
-            // metroButton2
+            // selectFile
             // 
-            this.metroButton2.Location = new System.Drawing.Point(99, 247);
-            this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(75, 23);
-            this.metroButton2.TabIndex = 5;
-            this.metroButton2.Text = "Select File";
-            this.metroButton2.UseSelectable = true;
-            this.metroButton2.Click += new System.EventHandler(this.metroButton2_Click);
+            this.selectFile.Location = new System.Drawing.Point(99, 247);
+            this.selectFile.Name = "selectFile";
+            this.selectFile.Size = new System.Drawing.Size(75, 23);
+            this.selectFile.TabIndex = 5;
+            this.selectFile.Text = "Select File";
+            this.selectFile.UseSelectable = true;
+            this.selectFile.Click += new System.EventHandler(this.metroButton2_Click);
             // 
-            // metroButton1
+            // selectFolder
             // 
-            this.metroButton1.Location = new System.Drawing.Point(18, 247);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(75, 23);
-            this.metroButton1.TabIndex = 4;
-            this.metroButton1.Text = "Select Folder";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
+            this.selectFolder.Location = new System.Drawing.Point(18, 247);
+            this.selectFolder.Name = "selectFolder";
+            this.selectFolder.Size = new System.Drawing.Size(75, 23);
+            this.selectFolder.TabIndex = 4;
+            this.selectFolder.Text = "Select Folder";
+            this.selectFolder.UseSelectable = true;
+            this.selectFolder.Click += new System.EventHandler(this.metroButton1_Click);
             // 
             // DESEncryption
             // 
@@ -289,17 +290,39 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.metroButton7);
+            this.groupBox2.Controls.Add(this.ChoosePrivate);
+            this.groupBox2.Controls.Add(this.AESDecrypt);
             this.groupBox2.Controls.Add(this.metroButton6);
             this.groupBox2.Controls.Add(this.metroButton3);
             this.groupBox2.Controls.Add(this.metroLabel1);
-            this.groupBox2.Controls.Add(this.useOld);
+            this.groupBox2.Controls.Add(this.choosePublic);
             this.groupBox2.Location = new System.Drawing.Point(375, 276);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(340, 184);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PKI Encryption";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            // 
+            // AESDecrypt
+            // 
+            this.AESDecrypt.Location = new System.Drawing.Point(209, 116);
+            this.AESDecrypt.Name = "AESDecrypt";
+            this.AESDecrypt.Size = new System.Drawing.Size(96, 23);
+            this.AESDecrypt.TabIndex = 19;
+            this.AESDecrypt.Text = "Decrypt";
+            this.AESDecrypt.UseSelectable = true;
+            this.AESDecrypt.Click += new System.EventHandler(this.metroButton7_Click);
+            // 
+            // metroButton6
+            // 
+            this.metroButton6.Location = new System.Drawing.Point(103, 116);
+            this.metroButton6.Name = "metroButton6";
+            this.metroButton6.Size = new System.Drawing.Size(96, 23);
+            this.metroButton6.TabIndex = 17;
+            this.metroButton6.Text = "Encrypt";
+            this.metroButton6.UseSelectable = true;
+            this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click);
             // 
             // metroButton3
             // 
@@ -320,34 +343,25 @@
             this.metroLabel1.TabIndex = 17;
             this.metroLabel1.Text = "Key ";
             // 
-            // useOld
+            // choosePublic
             // 
-            this.useOld.Location = new System.Drawing.Point(103, 73);
-            this.useOld.Name = "useOld";
-            this.useOld.Size = new System.Drawing.Size(202, 23);
-            this.useOld.TabIndex = 18;
-            this.useOld.Text = "Use Esisting PKI";
-            this.useOld.UseSelectable = true;
-            this.useOld.Click += new System.EventHandler(this.useOld_Click);
+            this.choosePublic.Location = new System.Drawing.Point(103, 73);
+            this.choosePublic.Name = "choosePublic";
+            this.choosePublic.Size = new System.Drawing.Size(96, 23);
+            this.choosePublic.TabIndex = 18;
+            this.choosePublic.Text = "Public Key";
+            this.choosePublic.UseSelectable = true;
+            this.choosePublic.Click += new System.EventHandler(this.useOld_Click);
             // 
-            // metroButton6
+            // ChoosePrivate
             // 
-            this.metroButton6.Location = new System.Drawing.Point(103, 116);
-            this.metroButton6.Name = "metroButton6";
-            this.metroButton6.Size = new System.Drawing.Size(96, 23);
-            this.metroButton6.TabIndex = 17;
-            this.metroButton6.Text = "Encrypt";
-            this.metroButton6.UseSelectable = true;
-            this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click);
-            // 
-            // metroButton7
-            // 
-            this.metroButton7.Location = new System.Drawing.Point(209, 116);
-            this.metroButton7.Name = "metroButton7";
-            this.metroButton7.Size = new System.Drawing.Size(96, 23);
-            this.metroButton7.TabIndex = 19;
-            this.metroButton7.Text = "Decrypt";
-            this.metroButton7.UseSelectable = true;
+            this.ChoosePrivate.Location = new System.Drawing.Point(209, 73);
+            this.ChoosePrivate.Name = "ChoosePrivate";
+            this.ChoosePrivate.Size = new System.Drawing.Size(96, 23);
+            this.ChoosePrivate.TabIndex = 20;
+            this.ChoosePrivate.Text = "Private Key";
+            this.ChoosePrivate.UseSelectable = true;
+            this.ChoosePrivate.Click += new System.EventHandler(this.ChoosePrivate_Click);
             // 
             // Title
             // 
@@ -372,8 +386,8 @@
         #endregion
 
         private MetroFramework.Controls.MetroPanel pkiCreate;
-        private MetroFramework.Controls.MetroButton metroButton1;
-        private MetroFramework.Controls.MetroButton metroButton2;
+        private MetroFramework.Controls.MetroButton selectFolder;
+        private MetroFramework.Controls.MetroButton selectFile;
         private MetroFramework.Controls.MetroTextBox keyTextBox;
         private MetroFramework.Controls.MetroListView fileList;
         private System.Windows.Forms.ColumnHeader fileName;
@@ -387,14 +401,15 @@
         private MetroFramework.Controls.MetroTextBox keyTextBoxVerify;
         private MetroFramework.Controls.MetroButton Encrypt;
         private MetroFramework.Controls.MetroButton metroButton3;
-        private MetroFramework.Controls.MetroButton useOld;
+        private MetroFramework.Controls.MetroButton choosePublic;
         private System.Windows.Forms.GroupBox DESEncryption;
         private System.Windows.Forms.GroupBox groupBox2;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroButton metroButton4;
         private MetroFramework.Controls.MetroButton metroButton5;
-        private MetroFramework.Controls.MetroButton metroButton7;
+        private MetroFramework.Controls.MetroButton AESDecrypt;
         private MetroFramework.Controls.MetroButton metroButton6;
+        private MetroFramework.Controls.MetroButton ChoosePrivate;
     }
 }
 
