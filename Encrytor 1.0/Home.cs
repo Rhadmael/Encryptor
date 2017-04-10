@@ -105,6 +105,7 @@ namespace Encrytor_1._0
 
         private void metroButton2_Click(object sender, EventArgs e)
         {
+            fileList.Items.Clear();
             //fileList.Clear();
             OpenFileDialog ChooseFile = new OpenFileDialog();
             ChooseFile.Multiselect = true;
@@ -112,16 +113,23 @@ namespace Encrytor_1._0
             ChooseFile.ShowDialog();
             string[] filePath = ChooseFile.FileNames;
             string[] fileName = ChooseFile.SafeFileNames;
-
+            
 
             for (int a = 0; a < fileName.Length; a++) {
                 string name = fileName[a];
                 string[] splitName = name.Split('.');
                 int last = splitName.Length;
 
+                string fName = @name;
+                string path = @filePath[a];
+                string extension;
+
+                extension = Path.GetExtension(fName);
+
                 ListViewItem file = new ListViewItem(splitName[0]);
                 file.SubItems.Add(filePath[a]);
-                file.SubItems.Add(splitName[last-1]);
+                //file.SubItems.Add(splitName[last-1]);
+                file.SubItems.Add(extension);
                 long size = new System.IO.FileInfo(filePath[a]).Length;
                 file.SubItems.Add(size.ToString());
                 file.SubItems.Add("ready");
@@ -183,11 +191,11 @@ namespace Encrytor_1._0
                 MessageBox.Show("okay");
                 //String a = fileList.Items[1].SubItems[1].Text;
 
-                for (int i = 1; i < fileList.Items.Count; i++)
+                for (int i = 0; i < fileList.Items.Count; i++)
                 {
                     MessageBox.Show(fileList.Items[i].SubItems[1].Text);
                     string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
-                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt+".lkj", key);
+                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt+".fek", key);
                 }
                 
                 
@@ -240,6 +248,47 @@ namespace Encrytor_1._0
             ofd.ShowDialog();
 
             //
+        }
+
+        private void metroButton5_Click(object sender, EventArgs e)
+        {
+            fileList.Items.Clear();
+        }
+
+        private void metroButton4_Click(object sender, EventArgs e)
+        {
+            //check if files are encrypted ones
+            for (int i = 0; i < fileList.Items.Count; i++)
+            {
+                //MessageBox.Show(fileList.Items[i].SubItems[1].Text);
+                string fileType = fileList.Items[i].SubItems[2].Text;
+                //MessageBox.Show(fileType);
+                if (fileType != ".fek")
+                {
+                    MessageBox.Show("invalid files selected. please check and verify file type");
+                }
+                else
+                {
+                    //check if keys are the same
+
+                    if (keyTextBox.Text == keyTextBoxVerify.Text && keyTextBox.Text != "" && keyTextBoxVerify.Text != "")
+                    {
+                        MessageBox.Show("keys are simmilar");
+                        //String a = fileList.Items[1].SubItems[1].Text;
+                        for (int fn = 0; fn < fileList.Items.Count; i++)
+                        {
+                            MessageBox.Show(fileList.Items[fn].SubItems[1].Text);
+                            string fileToDecrypt = fileList.Items[i].SubItems[1].Text;
+                            cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
+                            MessageBox.Show("Keys arssdcdsc");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Keys are not the same. Please Verify", " Error");
+                    }
+                }
+            }     
         }
 
     }

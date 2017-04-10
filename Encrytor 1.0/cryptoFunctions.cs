@@ -67,7 +67,7 @@ namespace Encrytor_1._0
 
 
         }
-        static void DecryptFile(string sInputFilename,
+        public static void DecryptFile(string sInputFilename,
                 string sOutputFilename,
                 string sKey)
         {
