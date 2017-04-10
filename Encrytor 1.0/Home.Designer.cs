@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
             this.pkiCreate = new MetroFramework.Controls.MetroPanel();
+            this.metroButton5 = new MetroFramework.Controls.MetroButton();
             this.fileList = new MetroFramework.Controls.MetroListView();
             this.fileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.filePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -39,6 +40,7 @@
             this.metroButton2 = new MetroFramework.Controls.MetroButton();
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.DESEncryption = new System.Windows.Forms.GroupBox();
+            this.metroButton4 = new MetroFramework.Controls.MetroButton();
             this.keyTextBox = new MetroFramework.Controls.MetroTextBox();
             this.keyToEncrypt = new MetroFramework.Controls.MetroLabel();
             this.keyTextBoxVerify = new MetroFramework.Controls.MetroTextBox();
@@ -52,8 +54,6 @@
             this.useOld = new MetroFramework.Controls.MetroButton();
             this.encryptLink = new MetroFramework.Controls.MetroLink();
             this.decryptLink = new MetroFramework.Controls.MetroLink();
-            this.metroButton4 = new MetroFramework.Controls.MetroButton();
-            this.metroButton5 = new MetroFramework.Controls.MetroButton();
             this.pkiCreate.SuspendLayout();
             this.DESEncryption.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -79,6 +79,16 @@
             this.pkiCreate.VerticalScrollbarSize = 10;
             this.pkiCreate.Paint += new System.Windows.Forms.PaintEventHandler(this.metroPanel1_Paint);
             // 
+            // metroButton5
+            // 
+            this.metroButton5.Location = new System.Drawing.Point(180, 247);
+            this.metroButton5.Name = "metroButton5";
+            this.metroButton5.Size = new System.Drawing.Size(75, 23);
+            this.metroButton5.TabIndex = 21;
+            this.metroButton5.Text = "Clear";
+            this.metroButton5.UseSelectable = true;
+            this.metroButton5.Click += new System.EventHandler(this.metroButton5_Click);
+            // 
             // fileList
             // 
             this.fileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -90,7 +100,7 @@
             this.fileList.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.fileList.FullRowSelect = true;
             this.fileList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3});
+            listViewItem2});
             this.fileList.Location = new System.Drawing.Point(18, 16);
             this.fileList.Name = "fileList";
             this.fileList.OwnerDraw = true;
@@ -161,7 +171,17 @@
             this.DESEncryption.Size = new System.Drawing.Size(331, 184);
             this.DESEncryption.TabIndex = 19;
             this.DESEncryption.TabStop = false;
-            this.DESEncryption.Text = "DES Encryption";
+            this.DESEncryption.Text = "AES Encryption";
+            // 
+            // metroButton4
+            // 
+            this.metroButton4.Location = new System.Drawing.Point(114, 155);
+            this.metroButton4.Name = "metroButton4";
+            this.metroButton4.Size = new System.Drawing.Size(96, 23);
+            this.metroButton4.TabIndex = 16;
+            this.metroButton4.Text = "Decrypt";
+            this.metroButton4.UseSelectable = true;
+            this.metroButton4.Click += new System.EventHandler(this.metroButton4_Click);
             // 
             // keyTextBox
             // 
@@ -181,7 +201,7 @@
             this.keyTextBox.Location = new System.Drawing.Point(114, 31);
             this.keyTextBox.MaxLength = 32767;
             this.keyTextBox.Name = "keyTextBox";
-            this.keyTextBox.PasswordChar = '\0';
+            this.keyTextBox.PasswordChar = '*';
             this.keyTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.keyTextBox.SelectedText = "";
             this.keyTextBox.SelectionLength = 0;
@@ -192,6 +212,7 @@
             this.keyTextBox.UseSelectable = true;
             this.keyTextBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.keyTextBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.keyTextBox.Click += new System.EventHandler(this.keyTextBox_Click);
             // 
             // keyToEncrypt
             // 
@@ -237,7 +258,7 @@
             this.keyVerify.AutoSize = true;
             this.keyVerify.Location = new System.Drawing.Point(32, 73);
             this.keyVerify.Name = "keyVerify";
-            this.keyVerify.Size = new System.Drawing.Size(65, 19);
+            this.keyVerify.Size = new System.Drawing.Size(66, 19);
             this.keyVerify.TabIndex = 14;
             this.keyVerify.Text = "Verify Key";
             // 
@@ -352,26 +373,6 @@
             this.decryptLink.Text = "Decrypt Files";
             this.decryptLink.UseSelectable = true;
             this.decryptLink.Click += new System.EventHandler(this.metroLink2_Click);
-            // 
-            // metroButton4
-            // 
-            this.metroButton4.Location = new System.Drawing.Point(114, 155);
-            this.metroButton4.Name = "metroButton4";
-            this.metroButton4.Size = new System.Drawing.Size(96, 23);
-            this.metroButton4.TabIndex = 16;
-            this.metroButton4.Text = "Decrypt";
-            this.metroButton4.UseSelectable = true;
-            this.metroButton4.Click += new System.EventHandler(this.metroButton4_Click);
-            // 
-            // metroButton5
-            // 
-            this.metroButton5.Location = new System.Drawing.Point(180, 247);
-            this.metroButton5.Name = "metroButton5";
-            this.metroButton5.Size = new System.Drawing.Size(75, 23);
-            this.metroButton5.TabIndex = 21;
-            this.metroButton5.Text = "Clear";
-            this.metroButton5.UseSelectable = true;
-            this.metroButton5.Click += new System.EventHandler(this.metroButton5_Click);
             // 
             // Title
             // 

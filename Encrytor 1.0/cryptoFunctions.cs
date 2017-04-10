@@ -5,96 +5,93 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Encrytor_1._0
 {
     class cryptoFunctions
     {
-
-        public static string RandomString()
-        {
-            int length = 16;
+        public static string generateKey(){
+            int size = 8;
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            StringBuilder res = new StringBuilder();
-            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-            {
-                byte[] uintBuffer = new byte[sizeof(uint)];
 
-                while (length-- > 0)
-                {
-                    rng.GetBytes(uintBuffer);
-                    uint num = BitConverter.ToUInt32(uintBuffer, 0);
+            //string builder to make the password
+            StringBuilder res = new StringBuilder();
+
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider()){
+
+                //crete a unsigned byte array
+                byte[] ubuffer = new byte[sizeof(uint)];
+
+                while (size -- > 0){
+                    rng.GetBytes(ubuffer);
+                    uint num = BitConverter.ToUInt32(ubuffer, 0);
                     res.Append(valid[(int)(num % (uint)valid.Length)]);
                 }
             }
 
             return res.ToString();
         }
-
-
-        public static string GenerateKey()
+        public static void EncryptFile(string fileToEncrypt, string encryptedFile, string @password)
         {
-            // Create an instance of Symetric Algorithm. Key and IV is generated automatically.
-            DESCryptoServiceProvider desCrypto = (DESCryptoServiceProvider)DESCryptoServiceProvider.Create();
 
-            // Use the Automatically generated key for Encryption. 
-            return ASCIIEncoding.ASCII.GetString(desCrypto.Key);
+            try
+            {
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                string cryptFile = encryptedFile;
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+                
+                RijndaelManaged AES = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    AES.CreateEncryptor(key, key),
+                    CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(fileToEncrypt, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1)
+                    cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Encryption failed!, please try again", "Error");
+            }
         }
-
-
-        public static void EncryptFile(string inputFileName, string outputFileName, string key) {
-
-            
-            //craete two Filestream objects to read and write 
-            FileStream filein = new FileStream(inputFileName, FileMode.Open, FileAccess.Read);
-            FileStream fileout = new FileStream(outputFileName, FileMode.Create, FileAccess.Write);
-
-            // Declare an inatance of AES
-
-            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-
-            DES.Key = ASCIIEncoding.ASCII.GetBytes(key);
-            DES.IV = ASCIIEncoding.ASCII.GetBytes(key);
-
-            //crete encrypted file
-            ICryptoTransform encryptedFile = DES.CreateEncryptor();
-            CryptoStream cryptoStream = new CryptoStream(fileout, encryptedFile, CryptoStreamMode.Write);
-
-
-            byte[] bytearrayinput = new byte[filein.Length - 1];
-            filein.Read(bytearrayinput, 0, bytearrayinput.Length);
-            cryptoStream.Write(bytearrayinput, 0, bytearrayinput.Length);
-
-
-        }
-        public static void DecryptFile(string sInputFilename,
-                string sOutputFilename,
-                string sKey)
+        public static void DecryptFile(string inputFile, string outputFile, string @password)
         {
-            DESCryptoServiceProvider AES = new DESCryptoServiceProvider();
-            //A 64 bit key and IV is required for this provider.
-            //Set secret key For DES algorithm.
-            AES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-            //Set initialization vector.
-            AES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
 
-            //Create a file stream to read the encrypted file back.
-            FileStream fsread = new FileStream(sInputFilename,
-                                       FileMode.Open,
-                                       FileAccess.Read);
-            //Create a DES decryptor from the DES instance.
-            ICryptoTransform desdecrypt = AES.CreateDecryptor();
-            //Create crypto stream set to read and do a 
-            //DES decryption transform on incoming bytes.
-            CryptoStream cryptostreamDecr = new CryptoStream(fsread,
-                                                     desdecrypt,
-                                                     CryptoStreamMode.Read);
-            //Print the contents of the decrypted file.
-            StreamWriter fsDecrypted = new StreamWriter(sOutputFilename);
-            fsDecrypted.Write(new StreamReader(cryptostreamDecr).ReadToEnd());
-            fsDecrypted.Flush();
-            fsDecrypted.Close();
+            {
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                FileStream fsCrypt = new FileStream(inputFile, FileMode.Open);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    RMCrypto.CreateDecryptor(key, key),
+                    CryptoStreamMode.Read);
+
+                FileStream fsOut = new FileStream(outputFile, FileMode.Create);
+
+                int data;
+                while ((data = cs.ReadByte()) != -1)
+                    fsOut.WriteByte((byte)data);
+
+                fsOut.Close();
+                cs.Close();
+                fsCrypt.Close();
+
+            }
         }
-
+        
     }
 }

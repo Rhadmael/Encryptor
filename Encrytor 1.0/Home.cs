@@ -22,8 +22,6 @@ namespace Encrytor_1._0
             InitializeComponent();
         }
         private string publicKey;
-        private string product;
-        private string productVersion;
         private string publicKeyID;
 
         public string PublicKey
@@ -160,18 +158,8 @@ namespace Encrytor_1._0
 
         private void keyGen_Click(object sender, EventArgs e)
         {
-            /*if using DES
-            key = cryptoFunctions.RandomString();
-            if (System.Windows.Forms.MessageBox.Show(key, "Copy key to Clipboard", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK) {
-                Clipboard.SetText(key);
-                keyTextBox.PasswordChar = '*';
-                keyTextBoxVerify.PasswordChar = '*';
 
-                keyTextBox.Text = key;
-                keyTextBoxVerify.Text = key;
-            }
-             * */
-            key = cryptoFunctions.GenerateKey();
+            key = cryptoFunctions.generateKey();
             if (System.Windows.Forms.MessageBox.Show(key, "Copy key to Clipboard", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK) {
                 Clipboard.SetText(key);
                 keyTextBox.PasswordChar = '*';
@@ -190,12 +178,14 @@ namespace Encrytor_1._0
             {
                 MessageBox.Show("okay");
                 //String a = fileList.Items[1].SubItems[1].Text;
+                string key = keyTextBox.Text;
 
                 for (int i = 0; i < fileList.Items.Count; i++)
                 {
                     MessageBox.Show(fileList.Items[i].SubItems[1].Text);
                     string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
-                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt+".fek", key);
+                    
+                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt + ".fek",key);
                 }
                 
                 
@@ -275,12 +265,15 @@ namespace Encrytor_1._0
                     {
                         MessageBox.Show("keys are simmilar");
                         //String a = fileList.Items[1].SubItems[1].Text;
-                        for (int fn = 0; fn < fileList.Items.Count; i++)
+                        key = keyTextBox.Text;
+                        for (int fn = 0; fn < fileList.Items.Count; fn++)
                         {
                             MessageBox.Show(fileList.Items[fn].SubItems[1].Text);
-                            string fileToDecrypt = fileList.Items[i].SubItems[1].Text;
+                            string fileToDecrypt = fileList.Items[fn].SubItems[1].Text;
+                            //cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
+                            //cryptoFunctions.DecryptFiles(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
                             cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
-                            MessageBox.Show("Keys arssdcdsc");
+                           // MessageBox.Show("Keys arssdcdsc");
                         }
                     }
                     else
@@ -291,5 +284,45 @@ namespace Encrytor_1._0
             }     
         }
 
+        private void keyTextBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void EncryptFile(string inputFile, string outputFile, string pass)
+        {
+            try
+            {
+                MessageBox.Show(pass);
+                string password = @pass; // Your Key Here
+                UnicodeEncoding UE = new UnicodeEncoding();
+                byte[] key = UE.GetBytes(password);
+
+                string cryptFile = outputFile;
+                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+                RijndaelManaged RMCrypto = new RijndaelManaged();
+
+                CryptoStream cs = new CryptoStream(fsCrypt,
+                    RMCrypto.CreateEncryptor(key, key),
+                    CryptoStreamMode.Write);
+
+                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
+
+                int data;
+                while ((data = fsIn.ReadByte()) != -1)
+                    cs.WriteByte((byte)data);
+
+
+                fsIn.Close();
+                cs.Close();
+                fsCrypt.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Encryption failed!", "Error");
+            }
+        }
     }
 }
