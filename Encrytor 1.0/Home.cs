@@ -21,7 +21,41 @@ namespace Encrytor_1._0
         {
             InitializeComponent();
         }
+        private string publicKey;
+        private string product;
+        private string productVersion;
+        private string publicKeyID;
 
+        public string PublicKey
+        {
+            get
+            {
+                return this.publicKey;
+            }
+            set
+            {
+                if (value != this.publicKey)
+                {
+                    this.publicKey = value;
+                    MessageBox.Show("PublicKey");
+                }
+            }
+        }
+        public string PublicKeyID
+        {
+            get
+            {
+                return this.publicKeyID;
+            }
+            set
+            {
+                if (value != this.publicKeyID)
+                {
+                    this.publicKeyID = value;
+                    MessageBox.Show("PublicKeyID");
+                }
+            }
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -118,8 +152,18 @@ namespace Encrytor_1._0
 
         private void keyGen_Click(object sender, EventArgs e)
         {
-            //if using DES
+            /*if using DES
             key = cryptoFunctions.RandomString();
+            if (System.Windows.Forms.MessageBox.Show(key, "Copy key to Clipboard", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK) {
+                Clipboard.SetText(key);
+                keyTextBox.PasswordChar = '*';
+                keyTextBoxVerify.PasswordChar = '*';
+
+                keyTextBox.Text = key;
+                keyTextBoxVerify.Text = key;
+            }
+             * */
+            key = cryptoFunctions.GenerateKey();
             if (System.Windows.Forms.MessageBox.Show(key, "Copy key to Clipboard", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK) {
                 Clipboard.SetText(key);
                 keyTextBox.PasswordChar = '*';
@@ -137,7 +181,16 @@ namespace Encrytor_1._0
             if (keyTextBox.Text == keyTextBoxVerify.Text && keyTextBox.Text != "" && keyTextBoxVerify.Text != "")
             {
                 MessageBox.Show("okay");
-                cryptoFunctions.EncryptFile(@"E:\puka.txt", @"E:\Encrypted.txt", key);
+                //String a = fileList.Items[1].SubItems[1].Text;
+
+                for (int i = 1; i < fileList.Items.Count; i++)
+                {
+                    MessageBox.Show(fileList.Items[i].SubItems[1].Text);
+                    string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
+                    cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt+".lkj", key);
+                }
+                
+                
             }
             else{
                 MessageBox.Show("Keys are not the same. Please Verify", " Error");
@@ -156,7 +209,37 @@ namespace Encrytor_1._0
 
         private void metroButton3_Click_1(object sender, EventArgs e)
         {
+            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+            //fbd.Description = Encrytor_1._0.Properties.Resources.DialogTitle_CreateKey;
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string publicKeyPath = System.IO.Path.Combine(fbd.SelectedPath, "publicKey.xml");
+                string privateKeyPath = System.IO.Path.Combine(fbd.SelectedPath, "privateKey.xml");
 
+                string publicKey;
+                string privateKey;
+                pki.GenerateRSAKeyPair(out publicKey, out privateKey);
+                using (StreamWriter sw = File.CreateText(publicKeyPath))
+                {
+                    sw.Write(publicKey);
+                }
+
+                using (StreamWriter sw = File.CreateText(privateKeyPath))
+                {
+                    sw.Write(privateKey);
+                }
+            }
+        }
+
+        private void useOld_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.DefaultExt = ".xml";
+            ofd.Filter = Encrytor_1._0.Properties.Resources.XML_File_Type;
+            ofd.Title = Encrytor_1._0.Properties.Resources.DialogTitle_SelectPublicKey;
+            ofd.ShowDialog();
+
+            //
         }
 
     }

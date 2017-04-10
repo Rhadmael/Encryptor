@@ -13,7 +13,7 @@ namespace Encrytor_1._0
 
         public static string RandomString()
         {
-            int length = 32;
+            int length = 16;
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
             StringBuilder res = new StringBuilder();
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
@@ -30,6 +30,18 @@ namespace Encrytor_1._0
 
             return res.ToString();
         }
+
+
+        public static string GenerateKey()
+        {
+            // Create an instance of Symetric Algorithm. Key and IV is generated automatically.
+            DESCryptoServiceProvider desCrypto = (DESCryptoServiceProvider)DESCryptoServiceProvider.Create();
+
+            // Use the Automatically generated key for Encryption. 
+            return ASCIIEncoding.ASCII.GetString(desCrypto.Key);
+        }
+
+
         public static void EncryptFile(string inputFileName, string outputFileName, string key) {
 
             
@@ -39,13 +51,13 @@ namespace Encrytor_1._0
 
             // Declare an inatance of AES
 
-            AesCryptoServiceProvider AES = new AesCryptoServiceProvider();
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
 
-            AES.Key = ASCIIEncoding.ASCII.GetBytes(key);
-            AES.IV = ASCIIEncoding.ASCII.GetBytes(key);
+            DES.Key = ASCIIEncoding.ASCII.GetBytes(key);
+            DES.IV = ASCIIEncoding.ASCII.GetBytes(key);
 
             //crete encrypted file
-            ICryptoTransform encryptedFile = AES.CreateEncryptor();
+            ICryptoTransform encryptedFile = DES.CreateEncryptor();
             CryptoStream cryptoStream = new CryptoStream(fileout, encryptedFile, CryptoStreamMode.Write);
 
 
@@ -59,7 +71,7 @@ namespace Encrytor_1._0
                 string sOutputFilename,
                 string sKey)
         {
-            AesCryptoServiceProvider AES = new AesCryptoServiceProvider();
+            DESCryptoServiceProvider AES = new DESCryptoServiceProvider();
             //A 64 bit key and IV is required for this provider.
             //Set secret key For DES algorithm.
             AES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);

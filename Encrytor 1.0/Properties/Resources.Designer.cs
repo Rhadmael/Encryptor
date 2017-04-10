@@ -50,21 +50,188 @@ namespace Encrytor_1._0.Properties
                 return resourceMan;
             }
         }
-
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All File Types (.*)|*.*.
+        /// </summary>
+        internal static string All_File_Type {
+            get {
+                return ResourceManager.GetString("All_File_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Engine is busying, wait for a while and try again..
+        /// </summary>
+        internal static string Backend_Busy {
+            get {
+                return ResourceManager.GetString("Backend_Busy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create RSA key pair at selected path.
+        /// </summary>
+        internal static string DialogTitle_CreateKey {
+            get {
+                return ResourceManager.GetString("DialogTitle_CreateKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a file containing a key for decryption.
+        /// </summary>
+        internal static string DialogTitle_SelectKey {
+            get {
+                return ResourceManager.GetString("DialogTitle_SelectKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select manifest file path.
+        /// </summary>
+        internal static string DialogTitle_SelectManifest {
+            get {
+                return ResourceManager.GetString("DialogTitle_SelectManifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a pem for converting to xml format.
+        /// </summary>
+        internal static string DialogTitle_SelectPem {
+            get {
+                return ResourceManager.GetString("DialogTitle_SelectPem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a file to be encrypted.
+        /// </summary>
+        internal static string DialogTitle_SelectPlain {
+            get {
+                return ResourceManager.GetString("DialogTitle_SelectPlain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a xml file containing a public key.
+        /// </summary>
+        internal static string DialogTitle_SelectPublicKey {
+            get {
+                return ResourceManager.GetString("DialogTitle_SelectPublicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to convert to private key.
+        /// </summary>
+        internal static string Error_convertToPrivateKey {
+            get {
+                return ResourceManager.GetString("Error_convertToPrivateKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to convert to public key.
+        /// </summary>
+        internal static string Error_convertToPublicKey {
+            get {
+                return ResourceManager.GetString("Error_convertToPublicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must specify a public key for encryption!.
+        /// </summary>
+        internal static string Error_Need_PublicKey {
+            get {
+                return ResourceManager.GetString("Error_Need_PublicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decryption is done, file is saved at {0}.
+        /// </summary>
+        internal static string Out_msg_decryption_success {
+            get {
+                return ResourceManager.GetString("Out_msg_decryption_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encryption is done, key information:.
+        /// </summary>
+        internal static string Out_msg_encrypt_success {
+            get {
+                return ResourceManager.GetString("Out_msg_encrypt_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decrypting....
+        /// </summary>
+        internal static string Out_msg_start_decryption {
+            get {
+                return ResourceManager.GetString("Out_msg_start_decryption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encrypting....
+        /// </summary>
+        internal static string Out_msg_start_encryption {
+            get {
+                return ResourceManager.GetString("Out_msg_start_encryption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Imported public key:.
+        /// </summary>
+        internal static string Output_msg_importKey {
+            get {
+                return ResourceManager.GetString("Output_msg_importKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pem files(.pem)|*.pem.
+        /// </summary>
+        internal static string PEM_File_Type {
+            get {
+                return ResourceManager.GetString("PEM_File_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now compressing....
+        /// </summary>
+        internal static string Start_Compression {
+            get {
+                return ResourceManager.GetString("Start_Compression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xml files (.xml)|*.xml.
+        /// </summary>
+        internal static string XML_File_Type {
+            get {
+                return ResourceManager.GetString("XML_File_Type", resourceCulture);
             }
         }
     }
