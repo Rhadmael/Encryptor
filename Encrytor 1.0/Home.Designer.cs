@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            ""}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Empty, new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0))));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Title));
             this.pkiCreate = new MetroFramework.Controls.MetroPanel();
             this.metroButton5 = new MetroFramework.Controls.MetroButton();
             this.fileList = new MetroFramework.Controls.MetroListView();
@@ -52,8 +54,6 @@
             this.metroButton3 = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.useOld = new MetroFramework.Controls.MetroButton();
-            this.encryptLink = new MetroFramework.Controls.MetroLink();
-            this.decryptLink = new MetroFramework.Controls.MetroLink();
             this.pkiCreate.SuspendLayout();
             this.DESEncryption.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -91,6 +91,7 @@
             // 
             // fileList
             // 
+            this.fileList.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.fileList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.fileName,
             this.filePath,
@@ -100,7 +101,7 @@
             this.fileList.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.fileList.FullRowSelect = true;
             this.fileList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.fileList.Location = new System.Drawing.Point(18, 16);
             this.fileList.Name = "fileList";
             this.fileList.OwnerDraw = true;
@@ -119,22 +120,25 @@
             // filePath
             // 
             this.filePath.Text = "Path";
+            this.filePath.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.filePath.Width = 241;
             // 
             // fileType
             // 
             this.fileType.Text = "File Type";
+            this.fileType.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.fileType.Width = 95;
             // 
             // fileSize
             // 
             this.fileSize.Text = "File Size";
-            this.fileSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.fileSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.fileSize.Width = 74;
             // 
             // fileStatus
             // 
             this.fileStatus.Text = "File Status";
+            this.fileStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.fileStatus.Width = 112;
             // 
             // metroButton2
@@ -354,34 +358,14 @@
             this.useOld.UseSelectable = true;
             this.useOld.Click += new System.EventHandler(this.useOld_Click);
             // 
-            // encryptLink
-            // 
-            this.encryptLink.Location = new System.Drawing.Point(277, 27);
-            this.encryptLink.Name = "encryptLink";
-            this.encryptLink.Size = new System.Drawing.Size(115, 23);
-            this.encryptLink.TabIndex = 1;
-            this.encryptLink.Text = "Encrypt Files";
-            this.encryptLink.UseSelectable = true;
-            this.encryptLink.Click += new System.EventHandler(this.metroLink1_Click);
-            // 
-            // decryptLink
-            // 
-            this.decryptLink.Location = new System.Drawing.Point(398, 27);
-            this.decryptLink.Name = "decryptLink";
-            this.decryptLink.Size = new System.Drawing.Size(115, 23);
-            this.decryptLink.TabIndex = 2;
-            this.decryptLink.Text = "Decrypt Files";
-            this.decryptLink.UseSelectable = true;
-            this.decryptLink.Click += new System.EventHandler(this.metroLink2_Click);
-            // 
             // Title
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 546);
-            this.Controls.Add(this.decryptLink);
-            this.Controls.Add(this.encryptLink);
             this.Controls.Add(this.pkiCreate);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Title";
             this.Text = "File Encryptor V 1.0";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -397,8 +381,6 @@
         #endregion
 
         private MetroFramework.Controls.MetroPanel pkiCreate;
-        private MetroFramework.Controls.MetroLink encryptLink;
-        private MetroFramework.Controls.MetroLink decryptLink;
         private MetroFramework.Controls.MetroButton metroButton1;
         private MetroFramework.Controls.MetroButton metroButton2;
         private MetroFramework.Controls.MetroTextBox keyTextBox;

@@ -11,15 +11,14 @@ namespace Encrytor_1._0
 {
     class cryptoFunctions
     {
+        //AES Encryption Methods
         public static string generateKey(){
             int size = 8;
             const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-            //string builder to make the password
             StringBuilder res = new StringBuilder();
 
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider()){
-
                 //crete a unsigned byte array
                 byte[] ubuffer = new byte[sizeof(uint)];
 
@@ -28,13 +27,13 @@ namespace Encrytor_1._0
                     uint num = BitConverter.ToUInt32(ubuffer, 0);
                     res.Append(valid[(int)(num % (uint)valid.Length)]);
                 }
-            }
 
+            }
             return res.ToString();
         }
+
         public static void EncryptFile(string fileToEncrypt, string encryptedFile, string @password)
         {
-
             try
             {
                 UnicodeEncoding UE = new UnicodeEncoding();
@@ -59,16 +58,18 @@ namespace Encrytor_1._0
                 fsIn.Close();
                 cs.Close();
                 fsCrypt.Close();
+                MessageBox.Show(fileToEncrypt + "Encryption Successfull");
             }
-            catch
-            {
+
+            catch{
                 MessageBox.Show("Encryption failed!, please try again", "Error");
             }
         }
+
         public static void DecryptFile(string inputFile, string outputFile, string @password)
         {
 
-            {
+            try{
                 UnicodeEncoding UE = new UnicodeEncoding();
                 byte[] key = UE.GetBytes(password);
 
@@ -89,7 +90,11 @@ namespace Encrytor_1._0
                 fsOut.Close();
                 cs.Close();
                 fsCrypt.Close();
+                MessageBox.Show(inputFile + " decryption successfull", "Success");
 
+            }
+            catch{
+                MessageBox.Show("Decryption failed!, please try again", "Error");
             }
         }
         

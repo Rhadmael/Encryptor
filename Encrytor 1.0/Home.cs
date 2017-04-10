@@ -90,11 +90,27 @@ namespace Encrytor_1._0
            
             if (chooseFiles.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                fileList.Items.Clear();
 
-             
-                String folderPath = chooseFiles.SelectedPath;
-                //String[] files = 
+                string[] files = Directory.GetFiles(chooseFiles.SelectedPath);
 
+                foreach (string file in files)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(file);
+                    string extension = Path.GetExtension(file);
+                    string path = Path.GetFullPath(file);
+
+                    ListViewItem item = new ListViewItem(fileName);
+                    item.SubItems.Add(path);
+                    item.SubItems.Add(extension);
+                    long size = new System.IO.FileInfo(file).Length;
+                    item.SubItems.Add(size.ToString());
+                    item.SubItems.Add("ready");
+                    item.Tag = file;
+
+                    fileList.Items.Add(item);
+
+                }
             }
             else {
                 MessageBox.Show("Alert","non selected");
@@ -182,9 +198,7 @@ namespace Encrytor_1._0
 
                 for (int i = 0; i < fileList.Items.Count; i++)
                 {
-                    MessageBox.Show(fileList.Items[i].SubItems[1].Text);
                     string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
-                    
                     cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt + ".fek",key);
                 }
                 
@@ -247,41 +261,36 @@ namespace Encrytor_1._0
 
         private void metroButton4_Click(object sender, EventArgs e)
         {
-            //check if files are encrypted ones
-            for (int i = 0; i < fileList.Items.Count; i++)
-            {
-                //MessageBox.Show(fileList.Items[i].SubItems[1].Text);
-                string fileType = fileList.Items[i].SubItems[2].Text;
-                //MessageBox.Show(fileType);
-                if (fileType != ".fek")
+            //check if keys are the same
+            if (keyTextBox.Text == keyTextBoxVerify.Text && keyTextBox.Text != "" && keyTextBoxVerify.Text != ""){
+                MessageBox.Show("keys are simmilar");
+                
+                //check if files are encrypted ones
+                for (int i = 0; i < fileList.Items.Count; i++)
                 {
-                    MessageBox.Show("invalid files selected. please check and verify file type");
-                }
-                else
-                {
-                    //check if keys are the same
+                    string fileType = fileList.Items[i].SubItems[2].Text;
 
-                    if (keyTextBox.Text == keyTextBoxVerify.Text && keyTextBox.Text != "" && keyTextBoxVerify.Text != "")
+                    //MessageBox.Show(fileType);
+                    if (fileType != ".fek")
                     {
-                        MessageBox.Show("keys are simmilar");
+                        MessageBox.Show("invalid files selected. please check and verify file type");
+                    }
+                    else
+                    {
                         //String a = fileList.Items[1].SubItems[1].Text;
                         key = keyTextBox.Text;
                         for (int fn = 0; fn < fileList.Items.Count; fn++)
                         {
-                            MessageBox.Show(fileList.Items[fn].SubItems[1].Text);
                             string fileToDecrypt = fileList.Items[fn].SubItems[1].Text;
-                            //cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
-                            //cryptoFunctions.DecryptFiles(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
                             cryptoFunctions.DecryptFile(@fileToDecrypt, @fileToDecrypt.Replace(".fek", ""), key);
-                           // MessageBox.Show("Keys arssdcdsc");
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Keys are not the same. Please Verify", " Error");
-                    }
                 }
-            }     
+            }
+            else
+            {
+                MessageBox.Show("Keys are not the same. Please Verify", " Error");
+            }
         }
 
         private void keyTextBox_Click(object sender, EventArgs e)
