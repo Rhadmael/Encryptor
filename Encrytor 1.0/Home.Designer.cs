@@ -50,10 +50,11 @@
             this.Encrypt = new MetroFramework.Controls.MetroButton();
             this.keyGen = new MetroFramework.Controls.MetroButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.pkiSize = new MetroFramework.Controls.MetroTextBox();
             this.metroButton3 = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.useOld = new MetroFramework.Controls.MetroButton();
+            this.metroButton6 = new MetroFramework.Controls.MetroButton();
+            this.metroButton7 = new MetroFramework.Controls.MetroButton();
             this.pkiCreate.SuspendLayout();
             this.DESEncryption.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -179,7 +180,7 @@
             // 
             // metroButton4
             // 
-            this.metroButton4.Location = new System.Drawing.Point(114, 155);
+            this.metroButton4.Location = new System.Drawing.Point(220, 116);
             this.metroButton4.Name = "metroButton4";
             this.metroButton4.Size = new System.Drawing.Size(96, 23);
             this.metroButton4.TabIndex = 16;
@@ -268,7 +269,7 @@
             // 
             // Encrypt
             // 
-            this.Encrypt.Location = new System.Drawing.Point(220, 116);
+            this.Encrypt.Location = new System.Drawing.Point(114, 116);
             this.Encrypt.Name = "Encrypt";
             this.Encrypt.Size = new System.Drawing.Size(96, 23);
             this.Encrypt.TabIndex = 12;
@@ -278,9 +279,9 @@
             // 
             // keyGen
             // 
-            this.keyGen.Location = new System.Drawing.Point(114, 116);
+            this.keyGen.Location = new System.Drawing.Point(114, 155);
             this.keyGen.Name = "keyGen";
-            this.keyGen.Size = new System.Drawing.Size(96, 23);
+            this.keyGen.Size = new System.Drawing.Size(202, 23);
             this.keyGen.TabIndex = 15;
             this.keyGen.Text = "Generate Key";
             this.keyGen.UseSelectable = true;
@@ -288,7 +289,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.pkiSize);
+            this.groupBox2.Controls.Add(this.metroButton7);
+            this.groupBox2.Controls.Add(this.metroButton6);
             this.groupBox2.Controls.Add(this.metroButton3);
             this.groupBox2.Controls.Add(this.metroLabel1);
             this.groupBox2.Controls.Add(this.useOld);
@@ -299,41 +301,11 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PKI Encryption";
             // 
-            // pkiSize
-            // 
-            // 
-            // 
-            // 
-            this.pkiSize.CustomButton.Image = null;
-            this.pkiSize.CustomButton.Location = new System.Drawing.Point(180, 1);
-            this.pkiSize.CustomButton.Name = "";
-            this.pkiSize.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.pkiSize.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.pkiSize.CustomButton.TabIndex = 1;
-            this.pkiSize.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.pkiSize.CustomButton.UseSelectable = true;
-            this.pkiSize.CustomButton.Visible = false;
-            this.pkiSize.Lines = new string[0];
-            this.pkiSize.Location = new System.Drawing.Point(107, 35);
-            this.pkiSize.MaxLength = 32767;
-            this.pkiSize.Name = "pkiSize";
-            this.pkiSize.PasswordChar = '\0';
-            this.pkiSize.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.pkiSize.SelectedText = "";
-            this.pkiSize.SelectionLength = 0;
-            this.pkiSize.SelectionStart = 0;
-            this.pkiSize.ShortcutsEnabled = true;
-            this.pkiSize.Size = new System.Drawing.Size(202, 23);
-            this.pkiSize.TabIndex = 16;
-            this.pkiSize.UseSelectable = true;
-            this.pkiSize.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.pkiSize.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
             // metroButton3
             // 
-            this.metroButton3.Location = new System.Drawing.Point(107, 73);
+            this.metroButton3.Location = new System.Drawing.Point(103, 35);
             this.metroButton3.Name = "metroButton3";
-            this.metroButton3.Size = new System.Drawing.Size(96, 23);
+            this.metroButton3.Size = new System.Drawing.Size(202, 23);
             this.metroButton3.TabIndex = 17;
             this.metroButton3.Text = "New PKI";
             this.metroButton3.UseSelectable = true;
@@ -350,13 +322,32 @@
             // 
             // useOld
             // 
-            this.useOld.Location = new System.Drawing.Point(107, 116);
+            this.useOld.Location = new System.Drawing.Point(103, 73);
             this.useOld.Name = "useOld";
-            this.useOld.Size = new System.Drawing.Size(96, 23);
+            this.useOld.Size = new System.Drawing.Size(202, 23);
             this.useOld.TabIndex = 18;
             this.useOld.Text = "Use Esisting PKI";
             this.useOld.UseSelectable = true;
             this.useOld.Click += new System.EventHandler(this.useOld_Click);
+            // 
+            // metroButton6
+            // 
+            this.metroButton6.Location = new System.Drawing.Point(103, 116);
+            this.metroButton6.Name = "metroButton6";
+            this.metroButton6.Size = new System.Drawing.Size(96, 23);
+            this.metroButton6.TabIndex = 17;
+            this.metroButton6.Text = "Encrypt";
+            this.metroButton6.UseSelectable = true;
+            this.metroButton6.Click += new System.EventHandler(this.metroButton6_Click);
+            // 
+            // metroButton7
+            // 
+            this.metroButton7.Location = new System.Drawing.Point(209, 116);
+            this.metroButton7.Name = "metroButton7";
+            this.metroButton7.Size = new System.Drawing.Size(96, 23);
+            this.metroButton7.TabIndex = 19;
+            this.metroButton7.Text = "Decrypt";
+            this.metroButton7.UseSelectable = true;
             // 
             // Title
             // 
@@ -399,10 +390,11 @@
         private MetroFramework.Controls.MetroButton useOld;
         private System.Windows.Forms.GroupBox DESEncryption;
         private System.Windows.Forms.GroupBox groupBox2;
-        private MetroFramework.Controls.MetroTextBox pkiSize;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroButton metroButton4;
         private MetroFramework.Controls.MetroButton metroButton5;
+        private MetroFramework.Controls.MetroButton metroButton7;
+        private MetroFramework.Controls.MetroButton metroButton6;
     }
 }
 

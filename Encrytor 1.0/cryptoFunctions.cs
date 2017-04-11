@@ -97,6 +97,11 @@ namespace Encrytor_1._0
                 MessageBox.Show("Decryption failed!, please try again", "Error");
             }
         }
+        public static string MakePath(string plainFilePath, string newSuffix)
+        {
+            string encryptedFileName = System.IO.Path.GetFileNameWithoutExtension(plainFilePath) + newSuffix;
+            return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(plainFilePath), encryptedFileName);
+        }
         
     }
 }

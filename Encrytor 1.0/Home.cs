@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using Microsoft.Win32;
+
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security;
 using System.Security.Cryptography;
-using System.IO;
+
 
 
 namespace Encrytor_1._0
@@ -19,6 +27,7 @@ namespace Encrytor_1._0
         string key ;
         public Title()
         {
+            this.freeEvent = new EventWaitHandle(true, EventResetMode.ManualReset);
             InitializeComponent();
         }
         private string publicKey;
@@ -38,6 +47,7 @@ namespace Encrytor_1._0
                     MessageBox.Show("PublicKey");
                 }
             }
+
         }
         public string PublicKeyID
         {
@@ -247,11 +257,16 @@ namespace Encrytor_1._0
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".xml";
-            ofd.Filter = Encrytor_1._0.Properties.Resources.XML_File_Type;
-            ofd.Title = Encrytor_1._0.Properties.Resources.DialogTitle_SelectPublicKey;
-            ofd.ShowDialog();
-
-            //
+            //ofd.Filter = FileEncryptor.Properties.Resources.XML_File_Type;
+            ofd.Title = "Select Public Key";
+            DialogResult result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                using (StreamReader sr = File.OpenText(ofd.FileName))
+                {
+                    this.PublicKey = sr.ReadToEnd();
+                }
+            }
         }
 
         private void metroButton5_Click(object sender, EventArgs e)
@@ -332,6 +347,32 @@ namespace Encrytor_1._0
             {
                 MessageBox.Show("Encryption failed!", "Error");
             }
+        }
+
+        private EventWaitHandle freeEvent;
+
+        private void metroButton6_Click(object sender, EventArgs e)
+        {
+            if (!this.freeEvent.WaitOne(0))
+            {
+                MessageBox.Show(Properties.Resources.Backend_Busy);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(publicKey))
+            {
+                MessageBox.Show(this, Properties.Resources.Error_Need_PublicKey);
+                return;
+            }
+
+            for (int i = 0; i < fileList.Items.Count; i++)
+            {
+                string fileToEncrypt = fileList.Items[i].SubItems[1].Text;
+                cryptoFunctions.EncryptFile(@fileToEncrypt, @fileToEncrypt + ".fek", key);
+                string encryptedFilePath = cryptoFunctions.MakePath(@fileToEncrypt, ".encrypted");
+                string manifestFilePath = cryptoFunctions.MakePath(@fileToEncrypt, ".manifest.xml");
+
+            }         
         }
     }
 }
